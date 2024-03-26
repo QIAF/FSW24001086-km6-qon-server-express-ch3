@@ -9,7 +9,7 @@ app.use(express.json());
 
 // baca isi file dari dummy.json
 const customers = JSON.parse(
-    fs.readFileSync(`${__dirname}/data/dummy.json`) 
+    fs.readFileSync(`${__dirname}/data/cars.json`) 
 )
 
 //localhost 8000
@@ -45,7 +45,6 @@ app.get("/api/v1/customers/:id", (req, res, next) => {
 
 //api untuk update data
 app.patch('/api/v1/customers/:id', (req, res) => {
-    console.log ("masuk edit ga")
     const id = req.params.id
 
     const customer = customers.find(cust => cust._id === id);
@@ -54,7 +53,7 @@ app.patch('/api/v1/customers/:id', (req, res) => {
     if(!customer) {
         return res.status(404).json({ // not found
             status: "fail",
-            message: `Customer dengan id : ${id} ga ada`,
+            message: `Customer dengan id : ${id} kosong`,
         });
     }
 
@@ -82,7 +81,7 @@ app.delete('/api/v1/customers/:id', (req, res) => {
     if(!customer) {
         return res.status(404).json({ // not found
             status: "fail",
-            message: `Customer dengan id : ${id} ga ada`,
+            message: `Customer dengan id : ${id} kosong`,
         });
     }
     customers.splice(customerIndex, 1);
@@ -108,7 +107,7 @@ app.post("/api/v1/customers", (req, res) => {
 
    customers.push(newCustomer);
 
-   fs.writeFile(`${__dirname}/data/dummy.json`, JSON.stringify(customers), err =>{
+   fs.writeFile(`${__dirname}/data/cars.json`, JSON.stringify(customers), err =>{
     res.status(201).json({
         status : 'success',
         data: {
